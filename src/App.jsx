@@ -11,12 +11,31 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [dataList, setDataList] = useState([]);
   const [currentCity, setCurrentCity] = useState('');
-  const [maxTemp, setMaxTemp] = useState(0);
   //I just made default city New York. Can be changed to any valid city.
   const [location, setLocation] = useState('New York');
   const [units, setUnits] = useState('imperial');
   const [weatherFilter, setWeatherFilter] = useState('');
   const [displayData, setDisplayData] = useState([]);
+  const [minTemp, setMinTemp] = useState(0);
+  const [maxTemp, setMaxTemp] = useState(0);
+
+
+  const calcMaxAndMinTemp = (temps) => {
+    if(temps.length === 0) {
+
+      console.log(temps);
+      setMaxTemp(0);
+      setMinTemp(0);
+      return;
+    }
+
+    const max = Math.max(...temps);
+    setMaxTemp(max);
+    const min = Math.min(...temps);
+    setMinTemp(min);
+
+      
+  }
 
   useEffect(() => {
     // Fetch data from API
@@ -29,6 +48,9 @@ function App() {
       setCurrentCity(data.city.name);
       console.log(data);
       //console.log(API_KEY);
+      const temps = data.list.map((item) => item.main.temp);
+      calcMaxAndMinTemp(temps);
+
     }
 
     fetchData().catch(console.error);
@@ -57,6 +79,7 @@ function App() {
         setDataList(data.list);
         setDisplayData(data.list);
         handleFilterData(weatherFilter);
+        calcMaxAndMinTemp(displayData.map((item) => item.main.temp));
         setCurrentCity(data.city.name);
         //console.log(data);
         console.log("Printing data...");
@@ -76,6 +99,7 @@ function App() {
     console.log(e.target.value);
     if (e.target.value === 'No Filter Selected') {
       setDisplayData(dataList);
+      calcMaxAndMinTemp(displayData.map((item) => item.main.temp));
     } else {
       handleFilterData(e.target.value);
     }
@@ -86,6 +110,8 @@ function App() {
     const filtered = dataList.filter((item) => item.weather[0].main === filter);
     setDisplayData(filtered);
 
+    calcMaxAndMinTemp(filtered.map((item) => item.main.temp));
+
   }
 
   return (
@@ -93,7 +119,7 @@ function App() {
       <h1>Weather Forecast</h1>
       <div>
         <h3>Current City: {currentCity}</h3>
-        <h4>Max Temperature: °F | Min Temperature: °F</h4>
+        <h4>Results Found: {displayData.length} | Max Temperature: {maxTemp}°F | Min Temperature: {minTemp}°F</h4>
       </div>
 
       <div className="filters">
@@ -117,7 +143,6 @@ function App() {
             <option>Thunderstorm</option> 
             <option>Snow</option>
           </select>
-          <button>Filter</button>
         </div>
         
         
