@@ -79,15 +79,16 @@ function App() {
           return;
         }
         const data = await response.json();
+        //Clear the filters upon new city search
+        handleClearFilters();
         setDataList(data.list);
         setDisplayData(data.list);
-        handleFilterData(weatherFilter);
-        calcMaxAndMinTemp(displayData.map((item) => item.main.temp));
+        calcMaxAndMinTemp(data.list.map((item) => item.main.temp));
         setCurrentCity(data.city.name);
         setTimezone(data.city.timezone);
         //console.log(data);
         console.log("Printing data...");
-        console.log(dataList);
+        console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
         alert('An error occurred. Please try again later.');
@@ -146,9 +147,9 @@ function App() {
     const [hours, minutes] = searchTime.split(':').map(Number);
     console.log(`Hours: ${hours}, Minutes: ${minutes}`);
     const filteredData = displayData.filter(item => {
-      const itemDate = new Date((item.dt) * 1000);
+      const itemDate = new Date((item.dt + timezone) * 1000); // Adjust for timezone
       console.log(itemDate);
-      const itemTime = itemDate.getHours() * 3600 + itemDate.getMinutes() * 60;
+      const itemTime = itemDate.getUTCHours() * 3600 + itemDate.getUTCMinutes() * 60;
       const searchTimeInSeconds = hours * 3600 + minutes * 60;
       return itemTime === searchTimeInSeconds;
     });
