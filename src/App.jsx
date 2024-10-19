@@ -14,6 +14,8 @@ function App() {
   const [maxTemp, setMaxTemp] = useState(0);
   const [location, setLocation] = useState('New York');
   const [units, setUnits] = useState('imperial');
+  const [weatherFilter, setWeatherFilter] = useState('');
+  const [displayData, setDisplayData] = useState([]);
 
   useEffect(() => {
     // Fetch data from API
@@ -22,6 +24,7 @@ function App() {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=${units}`);
       const data = await response.json();
       setDataList(data.list);
+      setDisplayData(data.list);
       setCurrentCity(data.city.name);
       console.log(data);
       //console.log(API_KEY);
@@ -51,6 +54,8 @@ function App() {
         }
         const data = await response.json();
         setDataList(data.list);
+        setDisplayData(data.list);
+        handleFilterData(weatherFilter);
         setCurrentCity(data.city.name);
         //console.log(data);
         console.log("Printing data...");
@@ -63,28 +68,65 @@ function App() {
 
     handleNewLocationSearch().catch(console.error);
 
-    //console.log(dataList);
+  }
+
+  const handleFilterChange = (e) => {
+    setWeatherFilter(e.target.value);
+    console.log(e.target.value);
+    if (e.target.value === 'No Filter Selected') {
+      setDisplayData(dataList);
+    } else {
+      handleFilterData(e.target.value);
+    }
+  }
+
+  const handleFilterData = (filter) => {
+
+    const filtered = dataList.filter((item) => item.weather[0].main === filter);
+    setDisplayData(filtered);
 
   }
 
   return (
     <>
       <h1>Weather Forecast</h1>
-      <input
-        type="text"
-        placeholder="Enter City Name"
-        onChange={ (e) => setSearchTerm(e.target.value) }
-      />
-      <button onClick={handleSearch}>Search</button>
       <div>
         <h3>Current City: {currentCity}</h3>
         <h4>Max Temperature: °F | Min Temperature: °F</h4>
       </div>
 
+      <div className="filters">
+        <div>
+          <p>Search by City:</p>
+          <input
+            type="text"
+            placeholder="Enter City Name"
+            onChange={ (e) => setSearchTerm(e.target.value) }
+          />
+          <button onClick={handleSearch}>Search</button>
+        </div>
+        <div>
+          <p>Filter by Weather</p>
+          <select value ={weatherFilter} onChange={handleFilterChange}>
+            <option>No Filter Selected</option>
+            <option>Clear</option>
+            <option>Clouds</option>
+            <option>Rain</option>
+            <option>Drizzle</option>
+            <option>Thunderstorm</option> 
+            <option>Snow</option>
+          </select>
+          <button>Filter</button>
+        </div>
+        
+        
+      </div>
+      
+
       <div>
 
-        {dataList.length != 0 ? dataList.map((item, index) => <WeatherData key={index} time={item.dt_txt} weather={item.weather} temperature={item.main.temp}/>) : null}
-
+        {dataList.length != 0 && displayData.length != 0 ? displayData.map((item, index) => <WeatherData key={index} time={item.dt_txt} weather={item.weather} temperature={item.main.temp}/>) : <p>No Data Found.</p>}
+        
       </div>
 
     </>

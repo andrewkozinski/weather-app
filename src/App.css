@@ -44,3 +44,15 @@
 .weather {
   margin-bottom: 15px;
 }
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.filters div {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
