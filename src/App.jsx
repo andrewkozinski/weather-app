@@ -103,15 +103,17 @@ function App() {
     console.log(e.target.value);
     if (e.target.value === 'No Filter Selected') {
       setDisplayData(dataList);
+      handleSearchDate();
       calcMaxAndMinTemp(displayData.map((item) => item.main.temp));
     } else {
+      handleSearchDate();
       handleFilterData(e.target.value);
     }
   }
 
   const handleFilterData = (filter) => {
 
-    const filtered = dataList.filter((item) => item.weather[0].main === filter);
+    const filtered = displayData.filter((item) => item.weather[0].main === filter);
     setDisplayData(filtered);
 
     calcMaxAndMinTemp(filtered.map((item) => item.main.temp));
@@ -119,21 +121,47 @@ function App() {
   }
 
   const handleSearchDate = () => {
-    const searchTimestamp = new Date(searchDate).getTime() / 1000;
-    const filteredData = displayData.filter(item => item.dt === searchTimestamp);
+    
+    if(searchDate == '') {
+      console.log("searchDate empty");
+      return;
+    }
+    console.log("not empty");
+
+    //Note to self: I hate dealing with time. Please never do this again.
+    const searchDateUTC = new Date(searchDate).toISOString().split('T')[0];
+    const searchTimestamp = new Date(searchDateUTC).getTime() / 1000;
+    const filteredData = displayData.filter(item => {
+      const itemDate = new Date((item.dt + timezone) * 1000); // Adjust for timezone
+      const itemDateUTC = itemDate.toISOString().split('T')[0];
+      return itemDateUTC === searchDateUTC;
+    }
+  );
+
     setDisplayData(filteredData);
+    calcMaxAndMinTemp(filteredData.map((item) => item.main.temp));
   }
 
   const handleSearchTime = () => {
     const [hours, minutes] = searchTime.split(':').map(Number);
+    console.log(`Hours: ${hours}, Minutes: ${minutes}`);
     const filteredData = displayData.filter(item => {
-      const itemDate = new Date((item.dt + timezone) * 1000);
+      const itemDate = new Date((item.dt) * 1000);
       console.log(itemDate);
       const itemTime = itemDate.getHours() * 3600 + itemDate.getMinutes() * 60;
       const searchTimeInSeconds = hours * 3600 + minutes * 60;
       return itemTime === searchTimeInSeconds;
     });
     setDisplayData(filteredData);
+    calcMaxAndMinTemp(filteredData.map((item) => item.main.temp));
+  };
+
+  const handleClearFilters = () => {
+    setWeatherFilter('No Filter Selected');
+    setSearchDate('');
+    setSearchTime('');
+    setDisplayData(dataList);
+    calcMaxAndMinTemp(dataList.map((item) => item.main.temp));
   };
 
   return (
@@ -182,6 +210,8 @@ function App() {
         
         
       </div>
+
+      <button onClick={handleClearFilters}>Clear</button>
       
 
       <div>
