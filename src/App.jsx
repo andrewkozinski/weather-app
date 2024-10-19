@@ -60,6 +60,10 @@ function App() {
   }
   , []);
 
+  useEffect(() => {
+    handleFilter();
+  }, [weatherFilter]);
+
   const handleSearch = () => {
     console.log(searchTerm);
     if (searchTerm === '') {
@@ -99,6 +103,7 @@ function App() {
 
   }
 
+  /*
   const handleFilterChange = (e) => {
     setWeatherFilter(e.target.value);
     console.log(e.target.value);
@@ -156,7 +161,7 @@ function App() {
     setDisplayData(filteredData);
     calcMaxAndMinTemp(filteredData.map((item) => item.main.temp));
   };
-
+*/
   const handleClearFilters = () => {
     setWeatherFilter('No Filter Selected');
     setSearchDate('');
@@ -164,6 +169,41 @@ function App() {
     setDisplayData(dataList);
     calcMaxAndMinTemp(dataList.map((item) => item.main.temp));
   };
+
+  const handleFilter = () => {
+
+    let filteredData = dataList;
+
+    if (weatherFilter !== 'No Filter Selected') {
+      console.log("weatherFilter not empty");
+      filteredData = filteredData.filter(item => item.weather[0].main === weatherFilter);
+    }
+
+    if (searchDate !== '') {
+      console.log("searchDate not empty");
+      const searchDateUTC = new Date(searchDate).toISOString().split('T')[0];
+      filteredData = filteredData.filter(item => {
+        const itemDate = new Date((item.dt + timezone) * 1000);
+        const itemDateUTC = itemDate.toISOString().split('T')[0];
+        return itemDateUTC === searchDateUTC;
+      });
+    }
+
+    if (searchTime !== '') {
+      console.log("searchTime not empty");
+      const [hours, minutes] = searchTime.split(':').map(Number);
+      const searchTimeInSeconds = hours * 3600 + minutes * 60;
+      filteredData = filteredData.filter(item => {
+        const itemDate = new Date((item.dt + timezone) * 1000);
+        const itemTime = itemDate.getUTCHours() * 3600 + itemDate.getUTCMinutes() * 60;
+        return itemTime === searchTimeInSeconds;
+      });
+    }
+
+    setDisplayData(filteredData);
+    calcMaxAndMinTemp(filteredData.map((item) => item.main.temp));
+
+  }
 
   return (
     <>
@@ -187,12 +227,12 @@ function App() {
         <div>
           <p>Filter By Time</p>  
           <input type="text" value={searchTime} onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" />
-          <button onClick={handleSearchTime}>Search</button>
+          <button onClick={handleFilter}>Search</button>
         </div>
 
         <div>
           <p>Filter by Weather</p>
-          <select value ={weatherFilter} onChange={handleFilterChange}>
+          <select value ={weatherFilter} onChange={ e => setWeatherFilter(e.target.value)}>
             <option>No Filter Selected</option>
             <option>Clear</option>
             <option>Clouds</option>
@@ -206,7 +246,7 @@ function App() {
         <div>
           <p>Filter By Date</p>  
           <input type="date" value={searchDate} onChange={ e => setSearchDate(e.target.value)} />
-          <button onClick={handleSearchDate}>Search</button>
+          <button onClick={handleFilter}>Search</button>
         </div>
         
         
