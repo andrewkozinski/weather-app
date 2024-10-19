@@ -12,7 +12,7 @@ const WeatherData = (props) => {
                 </div>
             </div>
             <div className="title-bar">
-            <h3 className="title-bar-text">Timestamp: {props.time}</h3>
+            <h3 className="title-bar-text">{(new Date((props.time + props.timezoneval) * 1000)).toUTCString()}</h3>
             <img src={`https://openweathermap.org/img/wn/${props.weather[0].icon}@2x.png`}/>
             </div>
             <div className="window-body">

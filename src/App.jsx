@@ -18,6 +18,9 @@ function App() {
   const [displayData, setDisplayData] = useState([]);
   const [minTemp, setMinTemp] = useState(0);
   const [maxTemp, setMaxTemp] = useState(0);
+  const [searchDate, setSearchDate] = useState('');
+  const [searchTime, setSearchTime] = useState('');
+  const [timezone, setTimezone] = useState(0);
 
 
   const calcMaxAndMinTemp = (temps) => {
@@ -50,7 +53,7 @@ function App() {
       //console.log(API_KEY);
       const temps = data.list.map((item) => item.main.temp);
       calcMaxAndMinTemp(temps);
-
+      setTimezone(data.city.timezone);
     }
 
     fetchData().catch(console.error);
@@ -81,6 +84,7 @@ function App() {
         handleFilterData(weatherFilter);
         calcMaxAndMinTemp(displayData.map((item) => item.main.temp));
         setCurrentCity(data.city.name);
+        setTimezone(data.city.timezone);
         //console.log(data);
         console.log("Printing data...");
         console.log(dataList);
@@ -114,6 +118,24 @@ function App() {
 
   }
 
+  const handleSearchDate = () => {
+    const searchTimestamp = new Date(searchDate).getTime() / 1000;
+    const filteredData = displayData.filter(item => item.dt === searchTimestamp);
+    setDisplayData(filteredData);
+  }
+
+  const handleSearchTime = () => {
+    const [hours, minutes] = searchTime.split(':').map(Number);
+    const filteredData = displayData.filter(item => {
+      const itemDate = new Date((item.dt + timezone) * 1000);
+      console.log(itemDate);
+      const itemTime = itemDate.getHours() * 3600 + itemDate.getMinutes() * 60;
+      const searchTimeInSeconds = hours * 3600 + minutes * 60;
+      return itemTime === searchTimeInSeconds;
+    });
+    setDisplayData(filteredData);
+  };
+
   return (
     <>
       <h1>Weather Forecast</h1>
@@ -124,7 +146,7 @@ function App() {
 
       <div className="filters">
         <div>
-          <p>Search by City:</p>
+          <p>Search For City:</p>
           <input
             type="text"
             placeholder="Enter City Name"
@@ -132,6 +154,13 @@ function App() {
           />
           <button onClick={handleSearch}>Search</button>
         </div>
+
+        <div>
+          <p>Filter By Time</p>  
+          <input type="text" value={searchTime} onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" />
+          <button onClick={handleSearchTime}>Search</button>
+        </div>
+
         <div>
           <p>Filter by Weather</p>
           <select value ={weatherFilter} onChange={handleFilterChange}>
@@ -144,6 +173,12 @@ function App() {
             <option>Snow</option>
           </select>
         </div>
+
+        <div>
+          <p>Filter By Date</p>  
+          <input type="date" value={searchDate} onChange={ e => setSearchDate(e.target.value)} />
+          <button onClick={handleSearchDate}>Search</button>
+        </div>
         
         
       </div>
@@ -151,7 +186,7 @@ function App() {
 
       <div>
 
-        {dataList.length != 0 && displayData.length != 0 ? displayData.map((item, index) => <WeatherData key={index} time={item.dt_txt} weather={item.weather} temperature={item.main.temp}/>) : <p>No Data Found.</p>}
+        {dataList.length != 0 && displayData.length != 0 ? displayData.map((item, index) => <WeatherData key={index} time={item.dt} weather={item.weather} temperature={item.main.temp} timezoneval={timezone}/>) : <p>No Data Found.</p>}
         
       </div>
 
