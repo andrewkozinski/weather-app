@@ -15,7 +15,7 @@ const WeatherData = (props) => {
             <div className="title-bar">
             <h3 className="title-bar-text">
                 <Link 
-                    to={`/weatherDetails/${props.fullData[props.index].dt}`} key={props.index}
+                    to={`/weatherDetails/${props.currentCity}/${props.fullData[props.index].dt}`} key={props.index}
                     style={{color: "White"}}
                 >
                     {(new Date((props.time + props.timezoneval) * 1000)).toUTCString()}

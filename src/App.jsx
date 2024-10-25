@@ -200,7 +200,7 @@ function App() {
 
       <div>
 
-        {dataList.length != 0 && displayData.length != 0 ? displayData.map((item, index) => <WeatherData key={index} time={item.dt} weather={item.weather} temperature={item.main.temp} timezoneval={timezone} index={index} fullData={displayData}/>) : <p>No Data Found.</p>}
+        {dataList.length != 0 && displayData.length != 0 ? displayData.map((item, index) => <WeatherData key={index} time={item.dt} weather={item.weather} temperature={item.main.temp} timezoneval={timezone} index={index} fullData={displayData} currentCity={currentCity}/>) : <p>No Data Found.</p>}
         
       </div>
 
