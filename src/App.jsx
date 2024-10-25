@@ -6,6 +6,7 @@ const API_KEY = import.meta.env.VITE_APP_API_KEY;
 import WeatherData from './Components/WeatherData';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
+import Window from './Components/Window';
 
 
 function App() {
@@ -88,58 +89,7 @@ function App() {
       ],
     });
 
-  }, [displayData])
-
-  /*
-  useEffect(() => {
-    let data = dataList;
-
-    if (weatherFilter !== 'No Filter Selected') {
-      console.log("weatherFilter not empty");
-      data = data.filter(item => item.weather[0].main === weatherFilter);
-    }
-
-    if (searchDate !== '') {
-      console.log("searchDate not empty");
-      const searchDateUTC = new Date(searchDate).toISOString().split('T')[0];
-      data = data.filter(item => {
-        const itemDate = new Date((item.dt + timezone) * 1000);
-        const itemDateUTC = itemDate.toISOString().split('T')[0];
-        return itemDateUTC === searchDateUTC;
-      });
-    }
-
-    if (searchTime !== '') {
-      console.log("searchTime not empty");
-      const [hours, minutes] = searchTime.split(':').map(Number);
-      const searchTimeInSeconds = hours * 3600 + minutes * 60;
-      data = data.filter(item => {
-        const itemDate = new Date((item.dt + timezone) * 1000);
-        const itemTime = itemDate.getUTCHours() * 3600 + itemDate.getUTCMinutes() * 60;
-        return itemTime === searchTimeInSeconds;
-      });
-    }
-
-    setFilteredData(data);
-
-    // Prepare data for the chart
-    const chartLabels = data.map(item => new Date((item.dt + timezone) * 1000).toLocaleString());
-    const chartValues = data.map(item => item.main.temp);
-
-    setChartData({
-      labels: chartLabels,
-      datasets: [
-        {
-          label: 'Temperature Over Time',
-          data: chartValues,
-          fill: false,
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          borderColor: 'rgba(75,192,192,1)',
-        },
-      ],
-    });
-  }, [weatherFilter, searchDate, searchTime]); */
-
+  }, [displayData]);
 
   const handleSearch = () => {
     console.log(searchTerm);
@@ -226,8 +176,26 @@ function App() {
   return (
     <>
       <h1>Weather Forecast</h1>
-
       
+      {displayData.length === 0 ? <p>Loading...</p> : 
+        <Window 
+        currentCity={currentCity}
+        displayData={displayData}
+        maxTemp={maxTemp}
+        minTemp={minTemp}
+        chartData={chartData}
+        handleSearch={handleSearch}
+        setSearchTerm={setSearchTerm}
+        searchTime={searchTime}
+        setWeatherFilter={setWeatherFilter}
+        weatherFilter={weatherFilter}
+        handleFilter={handleFilter}
+        searchDate={searchDate}
+        setSearchDate={setSearchDate}
+        handleClearFilters={handleClearFilters}
+        />
+      }
+
       <div>
         <h3>Current City: {currentCity}</h3>
         <h4>Results Found: {displayData.length} | Max Temperature: {maxTemp}°F | Min Temperature: {minTemp}°F</h4>
