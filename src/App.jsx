@@ -4,6 +4,9 @@ import viteLogo from '/vite.svg'
 import './App.css'
 const API_KEY = import.meta.env.VITE_APP_API_KEY;
 import WeatherData from './Components/WeatherData';
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
+import Window from './Components/Window';
 
 
 function App() {
@@ -14,13 +17,15 @@ function App() {
   //I just made default city New York. Can be changed to any valid city.
   const [location, setLocation] = useState('New York');
   const [units, setUnits] = useState('imperial');
-  const [weatherFilter, setWeatherFilter] = useState('');
+  const [weatherFilter, setWeatherFilter] = useState('No Filter Selected');
   const [displayData, setDisplayData] = useState([]);
   const [minTemp, setMinTemp] = useState(0);
   const [maxTemp, setMaxTemp] = useState(0);
   const [searchDate, setSearchDate] = useState('');
   const [searchTime, setSearchTime] = useState('');
   const [timezone, setTimezone] = useState(0);
+  const [filteredData, setFilteredData] = useState(dataList);
+  const [chartData, setChartData] = useState({});
 
 
   const calcMaxAndMinTemp = (temps) => {
@@ -63,6 +68,28 @@ function App() {
   useEffect(() => {
     handleFilter();
   }, [weatherFilter]);
+
+  useEffect(() => {
+
+    // Prepare data for the chart
+    const data = displayData;
+    const chartLabels = data.map(item => new Date((item.dt + timezone) * 1000).toLocaleString());
+    const chartValues = data.map(item => item.main.temp);
+
+    setChartData({
+      labels: chartLabels,
+      datasets: [
+        {
+          label: 'Temperature Over Time',
+          data: chartValues,
+          fill: false,
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+        },
+      ],
+    });
+
+  }, [displayData]);
 
   const handleSearch = () => {
     console.log(searchTerm);
@@ -117,6 +144,7 @@ function App() {
 
     if (weatherFilter !== 'No Filter Selected') {
       console.log("weatherFilter not empty");
+      console.log(weatherFilter);
       filteredData = filteredData.filter(item => item.weather[0].main === weatherFilter);
     }
 
@@ -149,52 +177,26 @@ function App() {
   return (
     <>
       <h1>Weather Forecast</h1>
-      <div>
-        <h3>Current City: {currentCity}</h3>
-        <h4>Results Found: {displayData.length} | Max Temperature: {maxTemp}°F | Min Temperature: {minTemp}°F</h4>
-      </div>
-
-      <div className="filters">
-        <div>
-          <p>Search For City:</p>
-          <input
-            type="text"
-            placeholder="Enter City Name"
-            onChange={ (e) => setSearchTerm(e.target.value) }
-          />
-          <button onClick={handleSearch}>Search</button>
-        </div>
-
-        <div>
-          <p>Filter By Time</p>  
-          <input type="text" value={searchTime} onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" />
-          <button onClick={handleFilter}>Search</button>
-        </div>
-
-        <div>
-          <p>Filter by Weather</p>
-          <select value ={weatherFilter} onChange={ e => setWeatherFilter(e.target.value)}>
-            <option>No Filter Selected</option>
-            <option>Clear</option>
-            <option>Clouds</option>
-            <option>Rain</option>
-            <option>Drizzle</option>
-            <option>Thunderstorm</option> 
-            <option>Snow</option>
-          </select>
-        </div>
-
-        <div>
-          <p>Filter By Date</p>  
-          <input type="date" value={searchDate} onChange={ e => setSearchDate(e.target.value)} />
-          <button onClick={handleFilter}>Search</button>
-        </div>
-        
-        
-      </div>
-
-      <button onClick={handleClearFilters}>Clear</button>
       
+      {dataList.length === 0 ? <p>Loading...</p> : 
+        <Window 
+        currentCity={currentCity}
+        displayData={displayData}
+        maxTemp={maxTemp}
+        minTemp={minTemp}
+        chartData={chartData}
+        handleSearch={handleSearch}
+        setSearchTerm={setSearchTerm}
+        searchTime={searchTime}
+        setSearchTime={setSearchTime}
+        setWeatherFilter={setWeatherFilter}
+        weatherFilter={weatherFilter}
+        handleFilter={handleFilter}
+        searchDate={searchDate}
+        setSearchDate={setSearchDate}
+        handleClearFilters={handleClearFilters}
+        />
+      }
 
       <div>
 
