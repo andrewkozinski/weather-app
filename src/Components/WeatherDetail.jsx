@@ -68,10 +68,10 @@ const WeatherDetail = () => {
                                 <img src={`https://openweathermap.org/img/wn/${currentDetails.weather[0].icon}@2x.png`} alt="Weather Icon" />
                             </div>
                             <p><strong>Temperature:</strong> {currentDetails.main.temp}°F</p>
-                            <p><strong>Humidity:</strong> {currentDetails.main.humidity}%</p>
                             <p><strong>Feels Like:</strong> {currentDetails.main.feels_like}°F</p>
                             <p><strong>Max Temp:</strong> {currentDetails.main.temp_max}°F</p>
                             <p><strong>Min Temp:</strong> {currentDetails.main.temp_min}°F</p>
+                            <p><strong>Humidity:</strong> {currentDetails.main.humidity}%</p>
                             <p><strong>Wind Speed:</strong> {currentDetails.wind.speed} mph</p>
                             <p><strong>Wind Direction:</strong> {currentDetails.wind.deg}°</p>
                             <p><strong>Pressure:</strong> {currentDetails.main.pressure} hPa</p>
