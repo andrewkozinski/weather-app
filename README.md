@@ -4,17 +4,17 @@ Submitted by: **Andrew Kozinski**
 
 This web app: **Weather app created using the OpenWeatherMapAPI. Allows users to search for a city and get the forecast from the city. Information such as temperature, weather and time is displayed in results. Users can filter by weather, time and date. Created data visualization using Chart.js library. This project used [98.css](https://jdan.github.io/98.css/) for much of it stylings.**
 
-Time spent: **X** hours spent in total
+Time spent: **3** hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
 - [X] **The app includes at least one unique chart developed using the fetched data that tell an interesting story**
-- [ ] **Clicking on an item in the list view displays more details about it**
-  - [ ] To ensure an accurate grade, your sidebar **must** be viewable when showing the details view in your recording.
-- [ ] **Clicking on an item has a direct, unique link to that item's detail view page**
-  - [ ] To ensure an accurate grade, the URL/address bar of your web browser **must** be viewable in your recording.  
+- [X] **Clicking on an item in the list view displays more details about it**
+  - [ ] To ensure an accurate grade, your sidebar **must** be viewable when showing the details view in your recording. (My project did not have a sidebar.)
+- [X] **Clicking on an item has a direct, unique link to that item's detail view page**
+  - [X] To ensure an accurate grade, the URL/address bar of your web browser **must** be viewable in your recording.  
 
 
 The following **optional** features are implemented:
