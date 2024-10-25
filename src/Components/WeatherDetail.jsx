@@ -10,6 +10,8 @@ const WeatherDetail = () => {
     const [data, setDataList] = useState({});
     const [units, setUnits] = useState('imperial');
     const [timezone, setTimezone] = useState(0);
+    const [found, setFound] = useState(false);
+    const [currentDetails, setCurrentDetails] = useState({});
 
 
     useEffect(() => {
@@ -21,6 +23,17 @@ const WeatherDetail = () => {
           setDataList(data.list);
           console.log(data);
           setTimezone(data.city.timezone);
+
+          // Find the object with the matching .dt
+          const detail = data.list.find(item => item.dt === parseInt(params.dt));
+          if (detail) {
+            setCurrentDetails(detail);
+            setFound(true);
+            console.log(detail);
+          } else {
+            setFound(false);
+          }
+
         }
     
         fetchData().catch(console.error);
@@ -34,7 +47,9 @@ const WeatherDetail = () => {
 
             <div className="window">
                 <div className="title-bar">
-                    <div className="title-bar-text">Counter</div>
+                    <div className="title-bar-text">
+                        {found ? new Date((currentDetails.dt + timezone) * 1000).toUTCString() : "Loading details..."}
+                    </div>
                     <div className="title-bar-controls">
                         <button aria-label="Minimize" />
                         <button aria-label="Maximize" />
@@ -43,6 +58,25 @@ const WeatherDetail = () => {
                 </div>
 
                 <div className="window-body">
+
+                    {found ?
+                        <div>
+                            <p>Weather: {currentDetails.weather[0].main}</p>
+                            <img src={`https://openweathermap.org/img/wn/${currentDetails.weather[0].icon}@2x.png`} />
+                            <p>Temperature: {currentDetails.main.temp}°F</p>
+                            <p>Humidity: {currentDetails.main.humidity}%</p>
+                            <p>Feels Like: {currentDetails.main.feels_like}°F</p>
+                            <p>Max Temp: {currentDetails.main.temp_max}°F</p>
+                            <p>Min Temp: {currentDetails.main.temp_min}°F</p>
+                            <p>Wind Speed: {currentDetails.wind.speed} mph</p>
+                            <p>Wind Direction: {currentDetails.wind.deg}°</p>
+                            <p>Pressure: {currentDetails.main.pressure} hPa</p>
+                            <p>Cloudiness: {currentDetails.clouds.all}%</p>
+                            <p>Visibility: {currentDetails.visibility} meters</p>
+                        </div>
+                        :
+                        <p>No details found.</p>
+                    }
                 </div>
             </div>
 
