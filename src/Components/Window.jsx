@@ -6,7 +6,7 @@ import 'chart.js/auto';
 const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSearch, setSearchTerm, weatherFilter, setWeatherFilter, handleFilter, searchDate, setSearchDate, handleClearFilters, searchTime}) => {
 
     return(
-        <div className="window">
+        <div className="window" style={{marginBottom: "20px"}}>
             <div className="title-bar">
                 <div className="title-bar-text">{currentCity}</div>
                 <div className="title-bar-controls">
