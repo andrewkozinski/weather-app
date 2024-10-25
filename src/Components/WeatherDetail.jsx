@@ -44,7 +44,6 @@ const WeatherDetail = () => {
         <div>
             <h1>Weather Detail</h1>
 
-
             <div className="window">
                 <div className="title-bar">
                     <div className="title-bar-text">
@@ -57,29 +56,29 @@ const WeatherDetail = () => {
                     </div>
                 </div>
 
-                <div className="window-body">
-
-                    {found ?
+                <div className="window-body" style={{ padding: '20px', backgroundColor: '#f4f4f4', borderBottomLeftRadius: '5px', borderBottomRightRadius: '5px' }}>
+                    {found ? (
                         <div>
-                            <p>Weather: {currentDetails.weather[0].main}</p>
-                            <img src={`https://openweathermap.org/img/wn/${currentDetails.weather[0].icon}@2x.png`} />
-                            <p>Temperature: {currentDetails.main.temp}°F</p>
-                            <p>Humidity: {currentDetails.main.humidity}%</p>
-                            <p>Feels Like: {currentDetails.main.feels_like}°F</p>
-                            <p>Max Temp: {currentDetails.main.temp_max}°F</p>
-                            <p>Min Temp: {currentDetails.main.temp_min}°F</p>
-                            <p>Wind Speed: {currentDetails.wind.speed} mph</p>
-                            <p>Wind Direction: {currentDetails.wind.deg}°</p>
-                            <p>Pressure: {currentDetails.main.pressure} hPa</p>
-                            <p>Cloudiness: {currentDetails.clouds.all}%</p>
-                            <p>Visibility: {currentDetails.visibility} meters</p>
+                            <div style={{ display: 'inline-block', backgroundColor: '#e0e0e0', padding: '10px', borderRadius: '5px' }}>
+                                <p><strong>Weather:</strong> {currentDetails.weather[0].main}</p>
+                                <img src={`https://openweathermap.org/img/wn/${currentDetails.weather[0].icon}@2x.png`} alt="Weather Icon" />
+                            </div>
+                            <p><strong>Temperature:</strong> {currentDetails.main.temp}°F</p>
+                            <p><strong>Humidity:</strong> {currentDetails.main.humidity}%</p>
+                            <p><strong>Feels Like:</strong> {currentDetails.main.feels_like}°F</p>
+                            <p><strong>Max Temp:</strong> {currentDetails.main.temp_max}°F</p>
+                            <p><strong>Min Temp:</strong> {currentDetails.main.temp_min}°F</p>
+                            <p><strong>Wind Speed:</strong> {currentDetails.wind.speed} mph</p>
+                            <p><strong>Wind Direction:</strong> {currentDetails.wind.deg}°</p>
+                            <p><strong>Pressure:</strong> {currentDetails.main.pressure} hPa</p>
+                            <p><strong>Cloudiness:</strong> {currentDetails.clouds.all}%</p>
+                            <p><strong>Visibility:</strong> {currentDetails.visibility} meters</p>
                         </div>
-                        :
+                    ) : (
                         <p>No details found.</p>
-                    }
+                    )}
                 </div>
             </div>
-
         </div>
     );
 }
