@@ -38,7 +38,7 @@ const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSe
 
         <div>
           <p>Filter By Time</p>  
-          <input type="text" onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" />
+          <input type="text" value={searchTime} onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" />
           <button onClick={handleFilter}>Search</button>
         </div>
 
@@ -66,9 +66,7 @@ const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSe
 
       <button onClick={handleClearFilters}>Clear</button>
 
-                <div className="field-row" style={{ justifyContent: "center" }}>
-                    
-                </div>
+                
             </div>
         </div>
     );

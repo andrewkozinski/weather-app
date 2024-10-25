@@ -17,7 +17,7 @@ function App() {
   //I just made default city New York. Can be changed to any valid city.
   const [location, setLocation] = useState('New York');
   const [units, setUnits] = useState('imperial');
-  const [weatherFilter, setWeatherFilter] = useState('');
+  const [weatherFilter, setWeatherFilter] = useState('No Filter Selected');
   const [displayData, setDisplayData] = useState([]);
   const [minTemp, setMinTemp] = useState(0);
   const [maxTemp, setMaxTemp] = useState(0);
@@ -144,6 +144,7 @@ function App() {
 
     if (weatherFilter !== 'No Filter Selected') {
       console.log("weatherFilter not empty");
+      console.log(weatherFilter);
       filteredData = filteredData.filter(item => item.weather[0].main === weatherFilter);
     }
 
