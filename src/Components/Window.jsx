@@ -5,6 +5,21 @@ import 'chart.js/auto';
 //Not the cleanest implementation but it works.
 const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSearch, setSearchTerm, setSearchTime, weatherFilter, setWeatherFilter, handleFilter, searchDate, setSearchDate, handleClearFilters, searchTime}) => {
 
+
+    //handle enter key press in search for city:
+    const handleCityKeyPress = (e) => {
+        if(e.key === 'Enter') {
+            handleSearch();
+        }
+    }
+
+    //handle key press in filter by time:
+    const handleTimeKeyPress = (e) => {
+        if(e.key === 'Enter') {
+            handleFilter();
+        }
+    }
+
     return(
         <div className="window" style={{marginBottom: "20px"}}>
             <div className="title-bar">
@@ -32,13 +47,14 @@ const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSe
             type="text"
             placeholder="Enter City Name"
             onChange={ (e) => setSearchTerm(e.target.value) }
+            onKeyUp={handleCityKeyPress}
           />
           <button onClick={handleSearch}>Search</button>
         </div>
 
         <div>
           <p>Filter By Time</p>  
-          <input type="text" value={searchTime} onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" />
+          <input type="text" value={searchTime} onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" onKeyUp={handleTimeKeyPress}/>
           <button onClick={handleFilter}>Search</button>
         </div>
 
