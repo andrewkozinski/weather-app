@@ -197,55 +197,6 @@ function App() {
       }
 
       <div>
-        <h3>Current City: {currentCity}</h3>
-        <h4>Results Found: {displayData.length} | Max Temperature: {maxTemp}°F | Min Temperature: {minTemp}°F</h4>
-      </div>
-
-      {chartData.labels && chartData.labels.length > 0 ? <Line data={chartData} /> : null}
-
-      <div className="filters">
-        <div>
-          <p>Search For City:</p>
-          <input
-            type="text"
-            placeholder="Enter City Name"
-            onChange={ (e) => setSearchTerm(e.target.value) }
-          />
-          <button onClick={handleSearch}>Search</button>
-        </div>
-
-        <div>
-          <p>Filter By Time</p>  
-          <input type="text" value={searchTime} onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" />
-          <button onClick={handleFilter}>Search</button>
-        </div>
-
-        <div>
-          <p>Filter by Weather</p>
-          <select value ={weatherFilter} onChange={ e => setWeatherFilter(e.target.value)}>
-            <option>No Filter Selected</option>
-            <option>Clear</option>
-            <option>Clouds</option>
-            <option>Rain</option>
-            <option>Drizzle</option>
-            <option>Thunderstorm</option> 
-            <option>Snow</option>
-          </select>
-        </div>
-
-        <div>
-          <p>Filter By Date</p>  
-          <input type="date" value={searchDate} onChange={ e => setSearchDate(e.target.value)} />
-          <button onClick={handleFilter}>Search</button>
-        </div>
-        
-        
-      </div>
-
-      <button onClick={handleClearFilters}>Clear</button>
-      
-
-      <div>
 
         {dataList.length != 0 && displayData.length != 0 ? displayData.map((item, index) => <WeatherData key={index} time={item.dt} weather={item.weather} temperature={item.main.temp} timezoneval={timezone}/>) : <p>No Data Found.</p>}
         
