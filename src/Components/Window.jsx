@@ -20,6 +20,14 @@ const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSe
         }
     }
 
+    //handle key press in filter by time:
+    const handleDateKeyPress = (e) => {
+      if(e.key === 'Enter') {
+          handleFilter();
+      }
+  }
+
+
     return(
         <div className="window" style={{marginBottom: "20px"}}>
             <div className="title-bar">
@@ -73,7 +81,7 @@ const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSe
 
         <div>
           <p>Filter By Date</p>  
-          <input type="date" value={searchDate} onChange={ e => setSearchDate(e.target.value)} />
+          <input type="date" value={searchDate} onChange={ e => setSearchDate(e.target.value)} onKeyUp={handleDateKeyPress} />
           <button onClick={handleFilter}>Search</button>
         </div>
         
