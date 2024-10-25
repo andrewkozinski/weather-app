@@ -42,12 +42,16 @@ const WeatherDetail = () => {
 
     return (
         <div>
-            <h1>Weather Detail</h1>
 
             <div className="window">
                 <div className="title-bar">
                     <div className="title-bar-text">
-                        {found ? new Date((currentDetails.dt + timezone) * 1000).toUTCString() : "Loading details..."}
+                        {found ? 
+                        <>
+                            {params.city} - {new Date((currentDetails.dt + timezone) * 1000).toUTCString()}
+                        </>
+                        : 
+                        "Loading details..."}
                     </div>
                     <div className="title-bar-controls">
                         <button aria-label="Minimize" />
