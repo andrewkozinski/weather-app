@@ -24,7 +24,7 @@ function App() {
   const [searchDate, setSearchDate] = useState('');
   const [searchTime, setSearchTime] = useState('');
   const [timezone, setTimezone] = useState(0);
-  const [filteredData, setFilteredData] = useState(dataList);
+  //const [filteredData, setFilteredData] = useState(dataList);
   const [chartData, setChartData] = useState({});
 
 
