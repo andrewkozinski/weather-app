@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 import './App.css'
 const API_KEY = import.meta.env.VITE_APP_API_KEY;
 import WeatherData from './Components/WeatherData';
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
   const [searchDate, setSearchDate] = useState('');
   const [searchTime, setSearchTime] = useState('');
   const [timezone, setTimezone] = useState(0);
+  const [filteredData, setFilteredData] = useState(dataList);
+  const [chartData, setChartData] = useState({});
 
 
   const calcMaxAndMinTemp = (temps) => {
@@ -63,6 +67,79 @@ function App() {
   useEffect(() => {
     handleFilter();
   }, [weatherFilter]);
+
+  useEffect(() => {
+
+    // Prepare data for the chart
+    const data = displayData;
+    const chartLabels = data.map(item => new Date((item.dt + timezone) * 1000).toLocaleString());
+    const chartValues = data.map(item => item.main.temp);
+
+    setChartData({
+      labels: chartLabels,
+      datasets: [
+        {
+          label: 'Temperature Over Time',
+          data: chartValues,
+          fill: false,
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+        },
+      ],
+    });
+
+  }, [displayData])
+
+  /*
+  useEffect(() => {
+    let data = dataList;
+
+    if (weatherFilter !== 'No Filter Selected') {
+      console.log("weatherFilter not empty");
+      data = data.filter(item => item.weather[0].main === weatherFilter);
+    }
+
+    if (searchDate !== '') {
+      console.log("searchDate not empty");
+      const searchDateUTC = new Date(searchDate).toISOString().split('T')[0];
+      data = data.filter(item => {
+        const itemDate = new Date((item.dt + timezone) * 1000);
+        const itemDateUTC = itemDate.toISOString().split('T')[0];
+        return itemDateUTC === searchDateUTC;
+      });
+    }
+
+    if (searchTime !== '') {
+      console.log("searchTime not empty");
+      const [hours, minutes] = searchTime.split(':').map(Number);
+      const searchTimeInSeconds = hours * 3600 + minutes * 60;
+      data = data.filter(item => {
+        const itemDate = new Date((item.dt + timezone) * 1000);
+        const itemTime = itemDate.getUTCHours() * 3600 + itemDate.getUTCMinutes() * 60;
+        return itemTime === searchTimeInSeconds;
+      });
+    }
+
+    setFilteredData(data);
+
+    // Prepare data for the chart
+    const chartLabels = data.map(item => new Date((item.dt + timezone) * 1000).toLocaleString());
+    const chartValues = data.map(item => item.main.temp);
+
+    setChartData({
+      labels: chartLabels,
+      datasets: [
+        {
+          label: 'Temperature Over Time',
+          data: chartValues,
+          fill: false,
+          backgroundColor: 'rgba(75,192,192,0.4)',
+          borderColor: 'rgba(75,192,192,1)',
+        },
+      ],
+    });
+  }, [weatherFilter, searchDate, searchTime]); */
+
 
   const handleSearch = () => {
     console.log(searchTerm);
@@ -149,10 +226,14 @@ function App() {
   return (
     <>
       <h1>Weather Forecast</h1>
+
+      
       <div>
         <h3>Current City: {currentCity}</h3>
         <h4>Results Found: {displayData.length} | Max Temperature: {maxTemp}°F | Min Temperature: {minTemp}°F</h4>
       </div>
+
+      {chartData.labels && chartData.labels.length > 0 ? <Line data={chartData} /> : null}
 
       <div className="filters">
         <div>
