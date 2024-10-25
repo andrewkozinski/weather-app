@@ -178,7 +178,7 @@ function App() {
     <>
       <h1>Weather Forecast</h1>
       
-      {displayData.length === 0 ? <p>Loading...</p> : 
+      {dataList.length === 0 ? <p>Loading...</p> : 
         <Window 
         currentCity={currentCity}
         displayData={displayData}
