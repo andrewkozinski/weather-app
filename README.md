@@ -2,7 +2,7 @@
 
 Submitted by: **Andrew Kozinski**
 
-This web app: **Weather app created using the OpenWeatherMapAPI. Allows users to search for a city and get the forecast from the city. Information such as temperature, weather and time is displayed in results. Users can filter by weather, time and date. Created data visualization using Chart.js library. This project used [98.css](https://jdan.github.io/98.css/) for much of it stylings.**
+This web app: **Weather app created using the OpenWeatherMapAPI. Allows users to search for a city and get the forecast from the city. Information such as temperature, weather and time is displayed in results. Users can filter by weather, time and date. Created data visualization using Chart.js library. This project used [98.css](https://jdan.github.io/98.css/) for much of its stylings.**
 
 Time spent: **3** hours spent in total
 
