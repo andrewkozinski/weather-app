@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import '98.css'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import WeatherDetail from './Components/WeatherDetail.jsx';
 
 
 
@@ -12,7 +13,7 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
         <Route index={true} path="/" element={<App />} />
-        <Route path="/weatherDetail/" />
+        <Route path="/weatherDetail/" element={<WeatherDetail/>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
