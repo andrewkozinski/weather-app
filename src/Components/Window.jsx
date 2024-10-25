@@ -8,7 +8,7 @@ const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSe
     return(
         <div className="window">
             <div className="title-bar">
-                <div className="title-bar-text">{currentCity} test</div>
+                <div className="title-bar-text">{currentCity}</div>
                 <div className="title-bar-controls">
                     <button aria-label="Minimize" />
                     <button aria-label="Maximize" />
