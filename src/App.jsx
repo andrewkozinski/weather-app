@@ -16,7 +16,7 @@ function App() {
   const [currentCity, setCurrentCity] = useState('');
   //I just made default city New York. Can be changed to any valid city.
   const [location, setLocation] = useState('New York');
-  const [units, setUnits] = useState('imperial');
+  const [units, setUnits] = useState('imperial'); //set Units is never used but metric units toggle can be implemented pretty easily.
   const [weatherFilter, setWeatherFilter] = useState('No Filter Selected');
   const [displayData, setDisplayData] = useState([]);
   const [minTemp, setMinTemp] = useState(0);
