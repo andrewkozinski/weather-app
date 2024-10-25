@@ -187,6 +187,7 @@ function App() {
         handleSearch={handleSearch}
         setSearchTerm={setSearchTerm}
         searchTime={searchTime}
+        setSearchTime={setSearchTime}
         setWeatherFilter={setWeatherFilter}
         weatherFilter={weatherFilter}
         handleFilter={handleFilter}

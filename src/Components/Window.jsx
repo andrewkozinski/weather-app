@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
 //Not the cleanest implementation but it works.
-const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSearch, setSearchTerm, weatherFilter, setWeatherFilter, handleFilter, searchDate, setSearchDate, handleClearFilters, searchTime}) => {
+const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSearch, setSearchTerm, setSearchTime, weatherFilter, setWeatherFilter, handleFilter, searchDate, setSearchDate, handleClearFilters, searchTime}) => {
 
     return(
         <div className="window" style={{marginBottom: "20px"}}>
@@ -38,7 +38,7 @@ const Window = ({currentCity, displayData, maxTemp, minTemp, chartData, handleSe
 
         <div>
           <p>Filter By Time</p>  
-          <input type="text" value={searchTime} onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" />
+          <input type="text" onChange={ e => setSearchTime(e.target.value)} placeholder="Enter time" />
           <button onClick={handleFilter}>Search</button>
         </div>
 
