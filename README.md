@@ -33,7 +33,7 @@ Here's a walkthrough of implemented user stories:
 <img src='https://github.com/andrewkozinski/weather-app/blob/main/web102project6.gif?raw=true' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 <!-- Replace this with whatever GIF tool you used! -->
-GIF created with ...  
+GIF created with [ScreenToGif](https://www.screentogif.com/) for Windows
 <!-- Recommended tools:
 [Kap](https://getkap.co/) for macOS
 [ScreenToGif](https://www.screentogif.com/) for Windows
