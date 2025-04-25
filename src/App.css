@@ -49,10 +49,17 @@
   display: flex;
   justify-content: center;
   gap: 5px;
+  flex-wrap: wrap;
 }
 
 .filters div {
   display: flex;
   align-items: center;
   gap: 2px;
+}
+
+@media (max-width: 600px) {
+  .filters {
+    gap: 10px; /* Increase gap for better spacing on smaller screens */
+  }
 }
